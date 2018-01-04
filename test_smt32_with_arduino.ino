@@ -47,7 +47,7 @@ struct keypad Valve_O;
 struct keypad Light;
 struct System SENSOR;
 struct System WATERLEVEL;
-struct System EX_PORT;
+struct keypad EX_PORT;
 int EC_sensorValue = 0;
 OneWire ds (8);                       //PA8
 dht11 DHT11;                          //PA8
@@ -102,6 +102,8 @@ void setup() {
    DHT_Manager();
    LCD_Manager();
    WL_Manager();
+   EX_PORT.Press=0;
+   EX_PORT.Pressed =0;
 }
 
 // the loop function runs over and over again forever
@@ -119,7 +121,7 @@ void loop() {
     {
      // SENSOR_Manager();
       LCD_Manager();
-      GET_Key();
+     // GET_Key();
       PORT_Manager();
       EX_Port();
       Serial.println("Mode Manual");
@@ -448,23 +450,42 @@ if(Valve_O.Press == HIGH)
 }
 ///////////////////////////////////////////////////////////////
 }
+
+
+Mode.Press = 0;
+Mode.Pressed =0;
+Mode.WaitRelease = 0;
+
 void GET_Mode ()
 {
 //////////////////////////Key Mode//////////////////////////
 Mode.Press = digitalRead(MODE); //Press switch Mode
-if(Mode.Press == HIGH)
+if(Mode.Press == 0 && Mode.Pressed ==1 )
 {
-  Mode.Pressed = Mode.Press;
-  while(Mode.Pressed)
+  if( Mode.WaitRelease == 0)
   {
-    if(digitalRead(MODE))
-    Mode.Pressed =1;
-    else 
-    Mode.Pressed =0;
+    Mode.Status = !Mode.Status;
+    Mode.Pressed = 0;
   }
-  Mode.Status = !Mode.Status;
+  else 
+  {
+   // Mode.WaitRelease = 0;
+  }
+
 }
+
+else if (Mode.Press == 1 && Mode.Pressed ==0)
+{
+    Mode.Pressed = 1;
+    Mode.WaitRelease = 1;
 }
+
+
+    
+
+}
+
+
 
 void PORT_Manager()
 {
@@ -506,7 +527,7 @@ void PORT_Manager()
     else 
       Serial.println("VALVE_O OFF");
 }
-
+/*
 void EX_Port()
 {  
    if(EX_PORT.cnt == 800)      //time loop switch case
@@ -550,7 +571,7 @@ void EX_Port()
    }  
    EX_PORT.cnt++;
 }
-  
+  */
 void  SENSOR_Manager()
 { 
    if(SENSOR.cnt == 1000)      //time loop switch case
@@ -665,3 +686,24 @@ void WL_Manager()
     Serial2.print(buff[5]);
     Serial2.print("\0");
 }
+
+void EX_Port()
+{
+   EX_PORT.Press = Fan.Status; //Press switch Mode
+   if(EX_PORT.Press==0 && EX_PORT.Pressed ==0){
+     Serial2.print("Fa:0\0\n");
+     EX_PORT.Pressed = 1;
+   }
+   else if(EX_PORT.Press==1&&EX_PORT.Pressed ==1){
+     Serial2.print("fa:1\0\n");  
+     EX_PORT.Pressed = 0;
+   }  
+   
+  
+
+
+
+   
+
+}
+
