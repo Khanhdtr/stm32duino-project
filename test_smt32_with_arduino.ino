@@ -84,9 +84,11 @@ char Comand_Valve_O[20] = "Valve_O:Switch";
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
+ 
   pinMode(EC_sensorPin, INPUT_ANALOG);        //EC
   //pinMode(LED_STT, OUTPUT);                       //Led status
   Serial.begin(115200);                       //Usb serial Port
+  Serial2.begin(115200);
   SoftWire.begin();                           //Bh1750
   SoftWire.setClock(400000);                  //Bh1750     
  
@@ -612,51 +614,7 @@ void PORT_Manager()
       digitalWrite(VO_OUT,OFF);
     }
 }
-/*
-void EX_Port()
-{  
-   if(EX_PORT.cnt == 800)      //time loop switch case
-   {
-    EX_PORT.cnt=0;
-    switch(EX_PORT.Value){
-      case 0: buff[6] = Fan.Status;
-              Serial2.print("fa:");
-              Serial2.print(buff[6]);
-              Serial2.print("\0");
-              break;   
-      case 1: buff[7] = Light.Status;
-              Serial2.print("lt:");
-              Serial2.print(buff[7]);
-              Serial2.print("\0");
-              break; 
-      case 2: buff[9] = Pump_A.Status;
-              Serial2.print("pa:");
-              Serial2.print(buff[9]);
-              Serial2.print("\0");  
-              break; 
-      case 3: buff[10] = Pump_B.Status;
-              Serial2.print("pb:");
-              Serial2.print(buff[10]);
-              Serial2.print("\0");  
-              break;   
-      case 4: buff[11] = Valve_I.Status;
-              Serial2.print("vi:");
-              Serial2.print(buff[11]);
-              Serial2.print("\0");
-              break;  
-      case 5: buff[12] = Mode.Status;
-              Serial2.print("mo:");
-              Serial2.print(buff[12]);
-              Serial2.print("\0");
-              break;
-    }
-       EX_PORT.Value++;
-       if(EX_PORT.Value==6)   // number of case
-       EX_PORT.Value=0;
-   }  
-   EX_PORT.cnt++;
-}
-  */
+
 void  SENSOR_Manager()
 { 
    if(SENSOR.cnt == 1000)      //time loop switch case
