@@ -20,6 +20,7 @@
 #define VALVE_O       31     //Key1  PB15 
 
 ////////////////define out port////////////////
+/*
 #define FAN_OUT       20   //PB4
 #define LIGHT_OUT     27   //PB11
 #define PO_OUT        21   //PB5
@@ -27,10 +28,14 @@
 #define PB_OUT        9   //PA9
 #define VI_OUT        19    //PB3
 #define VO_OUT        PA15   //PA15
+*/
+#define DATA_OUT      10    //PA10
+#define SCK_OUT       21   //PB5
+#define SCL_OUT       9     //PA9
 /////////////// define sensor in///////////////
 #define EC_sensorPin  0
 #define WL_Low        PB12     //PB12
-#define WL_High       PB12    //PA10
+#define WL_High       PB11    //PA10
 #define DHT11PIN      8     //Pin PA8 for DHT11
 const int rs = 24, en = 25, d4 = 32, d5 = 1, d6 = 4, d7 = 5;//PB8, PB9, PC13, PA1, PA4, PA5
 OneWire ds (8);                       //PA8
@@ -104,14 +109,13 @@ void setup() {
   pinMode (WL_Low,INPUT);
   pinMode (WL_High,INPUT);
   
-  pinMode(FAN_OUT,OUTPUT);
-  pinMode(LIGHT_OUT,OUTPUT);
+//  pinMode(FAN_OUT,OUTPUT);
+//  pinMode(LIGHT_OUT,OUTPUT);
   
-  pinMode(PO_OUT,OUTPUT);
-  pinMode(PA_OUT,OUTPUT);
-  pinMode(PB_OUT,OUTPUT);
-  pinMode(PA15,OUTPUT);
-  pinMode(PB3,OUTPUT);
+  pinMode(DATA_OUT,OUTPUT);
+  pinMode(SCK_OUT,OUTPUT);
+  pinMode(SCL_OUT,OUTPUT);
+
   
   lcd.begin(16,2);
 }
@@ -540,78 +544,78 @@ void PORT_Manager()
   if(Fan.Status == 1)
   {
      Serial.println("Fan ON");
-      digitalWrite(FAN_OUT,HIGH);
+    //  digitalWrite(FAN_OUT,HIGH);
   }
     else 
     {
       Serial.println("Fan OFF");
-      digitalWrite(FAN_OUT,LOW);
+    //  digitalWrite(FAN_OUT,LOW);
     }
 //////////////////////////////////////////////////////////////////////////    
     if(Light.Status == 1)
     {
       Serial.println("Light ON"); 
-     digitalWrite(LIGHT_OUT,HIGH);
+  //   digitalWrite(LIGHT_OUT,HIGH);
     }
     else 
     {
       Serial.println("Light OFF"); 
-      digitalWrite(LIGHT_OUT,LOW); 
+    //  digitalWrite(LIGHT_OUT,LOW); 
     }
 //////////////////////////////////////////////////////////////////////////
     if(Pump_O.Status == 1)
     {
       Serial.println("PUMP_O ON"); 
-      digitalWrite(PO_OUT,HIGH);
+     // digitalWrite(PO_OUT,HIGH);
     }
     else 
     {
       Serial.println("PUMP_O OFF");
-      digitalWrite(PO_OUT,LOW);
+     // digitalWrite(PO_OUT,LOW);
     }
 //////////////////////////////////////////////////////////////////////////
     if(Pump_A.Status == 1)
     {
       Serial.println("PUMP_A ON"); 
-      digitalWrite(PA_OUT,HIGH);
+//      digitalWrite(PA_OUT,HIGH);
     }
     else 
     {
       Serial.println("PUMP_A OFF");
-      digitalWrite(PA_OUT,LOW);
+   //   digitalWrite(PA_OUT,LOW);
     }
 //////////////////////////////////////////////////////////////////////////
     if(Pump_B.Status == 1)
     {
       Serial.println("PUMP_B ON"); 
-      digitalWrite(PB_OUT,HIGH);
+     // digitalWrite(PB_OUT,HIGH);
     }
     else 
     {
       Serial.println("PUMP_B OFF"); 
-      digitalWrite(PB_OUT,LOW);
+     // digitalWrite(PB_OUT,LOW);
     }
 //////////////////////////////////////////////////////////////////////////
     if(Valve_I.Status == 1)
     {
       Serial.println("VALVE_I ON"); 
-      digitalWrite(VI_OUT,HIGH);
+     // digitalWrite(VI_OUT,HIGH);
     }
     else 
     {
       Serial.println("VALVE_I OFF");
-      digitalWrite(VI_OUT,LOW);
+     // digitalWrite(VI_OUT,LOW);
     }
 //////////////////////////////////////////////////////////////////////////
     if(Valve_O.Status == 1)
     {
       Serial.println("VALVE_O ON"); 
-      digitalWrite(VO_OUT,ON);
+    //  digitalWrite(VO_OUT,ON);
     }
     else 
     {
       Serial.println("VALVE_O OFF");
-      digitalWrite(VO_OUT,OFF);
+     // digitalWrite(VO_OUT,OFF);
     }
 }
 
